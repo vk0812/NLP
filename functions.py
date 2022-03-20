@@ -6,6 +6,7 @@ from nltk.tokenize import TweetTokenizer
 import string
 import re
 import numpy as np
+import pandas as pd
 
 nltk.download('stopwords')
 
@@ -42,3 +43,22 @@ def build_freqs(tweets, ys):
             else:
                 freqs[pair] = 1    
     return freqs
+
+def get_dict(file_name):
+    my_file = pd.read_csv(file_name, delimiter=' ')
+    etof = {}  
+    for i in range(len(my_file)):
+        en = my_file.loc[i][0]
+        fr = my_file.loc[i][1]
+        etof[en] = fr
+
+    return etof
+
+def cosine_similarity(A, B):
+    cos = -10
+    dot = np.dot(A, B)
+    norma = np.linalg.norm(A)
+    normb = np.linalg.norm(B)
+    cos = dot / (norma * normb)
+
+    return cos
